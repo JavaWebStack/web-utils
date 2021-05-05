@@ -91,7 +91,7 @@ public class EnvFile {
                     result.put(key.split("#")[0], "");
                     continue;
                 }
-                line = line.substring(key.length());
+                line = line.substring(key.length()+1);
                 if(line.length() == 0) {
                     result.put(key, "");
                     continue;

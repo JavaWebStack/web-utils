@@ -1,5 +1,6 @@
 package org.javawebstack.webutils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -14,6 +15,10 @@ public class I18N {
     }
 
     public Locale getDefaultLocale() {
+        if(translations.size() == 0)
+            return null;
+        if(!translations.containsKey(defaultLocale))
+            return new ArrayList<>(translations.keySet()).get(0);
         return defaultLocale;
     }
 
@@ -21,12 +26,19 @@ public class I18N {
         translations.put(locale, translation);
     }
 
+    public Translation get(Locale locale) {
+        return translations.getOrDefault(locale, translations.get(getDefaultLocale()));
+    }
+
+    public Translation get() {
+        return get(getDefaultLocale());
+    }
+
     public String translate(Locale locale, String key, Object... params) {
-        if(!translations.containsKey(locale))
-            locale = getDefaultLocale();
-        String msg = translations.get(locale).getMessage(key, params);
-        if(msg.equals(key) && locale != getDefaultLocale())
-            return translations.get(getDefaultLocale()).getMessage(key, params);
+        Translation translation = get(locale);
+        String msg = translation.getMessage(key, params);
+        if(msg.equals(key))
+            return get(getDefaultLocale()).getMessage(key, params);
         return msg;
     }
 
