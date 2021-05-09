@@ -10,21 +10,17 @@ import java.util.stream.Collectors;
 
 public class EnvFile {
 
-    private final Map<String, String> values;
+    private Map<String, String> values;
 
     public EnvFile(String source) {
         values = parse(source);
-        if(values == null)
-            throw new RuntimeException("Failed to parse env-file");
     }
 
     public EnvFile(File file) {
         try {
             values = parse(IO.readTextFile(file));
-            if(values == null)
-                throw new RuntimeException("Failed to parse env-file");
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            values = new HashMap<>();
         }
     }
 
@@ -34,6 +30,11 @@ public class EnvFile {
 
     public EnvFile() {
         this(new HashMap<>());
+    }
+
+    public EnvFile withVariables() {
+        values.putAll(System.getenv());
+        return this;
     }
 
     public Map<String, String> getValues() {
