@@ -135,7 +135,7 @@ public class Crypt {
         }
     }
 
-    private static String toHex(byte[] bytes) {
+    public static String toHex(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes) {
             String s = Integer.toString(b & 0xFF, 16);
