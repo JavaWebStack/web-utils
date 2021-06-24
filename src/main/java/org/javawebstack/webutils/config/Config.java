@@ -6,49 +6,52 @@ public class Config {
 
     private final Map<String, String> config = new HashMap<>();
 
-    public void set(String path, String key, String value) {
+    public Config set(String path, String key, String value) {
         String prefix = path != null && path.length() > 0 ? path + "." : "";
-        set(prefix + key.toLowerCase(Locale.ROOT), value);
+        return set(prefix + key.toLowerCase(Locale.ROOT), value);
     }
 
-    public void add(String path, Map<String, String> data, Map<String, String> mapping) {
+    public Config add(String path, Map<String, String> data, Map<String, String> mapping) {
         data.forEach((key, value) -> {
             if(mapping != null && mapping.containsKey(key))
                 key = mapping.get(key);
             set(path, key, value);
         });
+        return this;
     }
 
-    public void add(Map<String, String> data, Map<String, String> mapping) {
-        add(null, data, null);
+    public Config add(Map<String, String> data, Map<String, String> mapping) {
+        return add(null, data, null);
     }
 
-    public void add(String path, Map<String, String> data) {
-        add(path, data, null);
+    public Config add(String path, Map<String, String> data) {
+        return add(path, data, null);
     }
 
-    public void add(Map<String, String> data) {
-        add(null, data, null);
+    public Config add(Map<String, String> data) {
+        return add(null, data, null);
     }
 
-    public void add(String path, EnvFile envFile, Map<String, String> mapping) {
-        add(path, envFile.getValues(), mapping);
+    public Config add(String path, EnvFile envFile, Map<String, String> mapping) {
+        return add(path, envFile.getValues(), mapping);
     }
 
-    public void add(String path, EnvFile envFile) {
-        add(path, envFile, null);
+    public Config add(String path, EnvFile envFile) {
+        return add(path, envFile, null);
     }
 
-    public void add(EnvFile envFile, Map<String, String> mapping) {
-        add(null, envFile, mapping);
+    public Config add(EnvFile envFile, Map<String, String> mapping) {
+        return add(null, envFile, mapping);
+
     }
 
-    public void add(EnvFile envFile) {
-        add(null, envFile, null);
+    public Config add(EnvFile envFile) {
+        return add(null, envFile, null);
     }
 
-    public void set(String key, String value) {
+    public Config set(String key, String value) {
         config.put(key, value);
+        return this;
     }
 
     public String get(String key, String defaultValue) {
