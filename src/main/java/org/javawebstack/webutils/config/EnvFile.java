@@ -88,6 +88,8 @@ public class EnvFile {
                     return null;
             } else {
                 key = line.split("=", 2)[0];
+                if(key.length() == line.length())
+                    continue;
                 if(key.contains("#")) {
                     result.put(key.split("#")[0], "");
                     continue;
