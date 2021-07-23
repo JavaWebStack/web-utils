@@ -50,11 +50,14 @@ public class ModelBindParamTransformer extends DefaultRouteParamTransformer {
         }
     }
 
-    public void setTransformer(ModelBindTransformer transformer) {
+    public ModelBindParamTransformer setTransformer(ModelBindTransformer transformer) {
         this.transformer = transformer;
+        return this;
     }
 
-    public void setAccessorAttribName(String accessorAttribName) {
+    public ModelBindParamTransformer setAccessorAttribName(String accessorAttribName) {
         this.accessorAttribName = accessorAttribName;
+        return this;
     }
+
 }
