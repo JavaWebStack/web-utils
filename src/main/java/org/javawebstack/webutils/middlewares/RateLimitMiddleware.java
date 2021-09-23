@@ -24,15 +24,18 @@ public class RateLimitMiddleware implements Middleware {
     }
 
     public Object handle(Exchange exchange) {
+        String ip = exchange.rawRequest().getRemoteAddr();
+        if (exchange.header("X-Forwarded-For") != null)
+            ip = exchange.header("X-Forwarded-For");
         RateLimit rateLimit = null;
-        if (rateLimits.containsKey(exchange.rawRequest().getRemoteAddr())) {
-            rateLimit = rateLimits.get(exchange.rawRequest().getRemoteAddr());
+        if (rateLimits.containsKey(ip)) {
+            rateLimit = rateLimits.get(ip);
             if (rateLimit.stillAlive() && rateLimit.getAndDecrease() <= 1)
                 throw new RateLimitException();
         }
         if (rateLimit == null || !rateLimit.stillAlive())
             rateLimit = new RateLimit(System.currentTimeMillis() + millis, this.rateLimit);
-        rateLimits.put(exchange.rawRequest().getRemoteAddr(), rateLimit);
+        rateLimits.put(ip, rateLimit);
         exchange.header("X-Rate-Limit-Limit", String.valueOf(this.rateLimit));
         exchange.header("X-Rate-Limit-Remaining", String.valueOf(rateLimit.getRateLimitLeft()));
         exchange.header("X-Rate-Limit-Reset", String.valueOf(rateLimit.getTimeMillis()/1000));
