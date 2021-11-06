@@ -8,7 +8,7 @@ import java.net.URLEncoder;
 
 public class URLUtils {
 
-    public String urlEncode(String content) {
+    public static String urlEncode(String content) {
         try {
             return URLEncoder.encode(content, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -17,7 +17,7 @@ public class URLUtils {
         return null;
     }
 
-    public String urlDecode(String content) {
+    public static String urlDecode(String content) {
         try {
             return URLDecoder.decode(content, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -119,7 +119,7 @@ public class URLUtils {
                         String[] queryParameters = pathAndQueryParameters[1].split("&");
                         for (String queryParameter : queryParameters) {
                             String[] keyValue = queryParameter.split("=", 2);
-                            urlBuilder.queryParameters.set(keyValue[0], keyValue.length > 1 ? keyValue[1] : "");
+                            urlBuilder.queryParameters.set(URLUtils.urlDecode(keyValue[0]), URLUtils.urlDecode(keyValue.length > 1 ? keyValue[1] : ""));
                         }
                     }
                 }
