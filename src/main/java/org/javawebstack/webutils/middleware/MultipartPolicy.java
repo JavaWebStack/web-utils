@@ -1,4 +1,4 @@
-package org.javawebstack.webutils;
+package org.javawebstack.webutils.middleware;
 
 import org.javawebstack.httpserver.Exchange;
 import org.javawebstack.httpserver.handler.RequestInterceptor;

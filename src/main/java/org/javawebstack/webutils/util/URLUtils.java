@@ -1,4 +1,4 @@
-package org.javawebstack.webutils;
+package org.javawebstack.webutils.util;
 
 import org.javawebstack.abstractdata.util.QueryString;
 

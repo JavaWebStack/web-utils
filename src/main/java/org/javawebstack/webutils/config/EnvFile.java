@@ -1,6 +1,6 @@
 package org.javawebstack.webutils.config;
 
-import org.javawebstack.webutils.IO;
+import org.javawebstack.webutils.util.IO;
 
 import java.io.File;
 import java.io.IOException;

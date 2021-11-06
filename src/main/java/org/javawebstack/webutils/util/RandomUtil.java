@@ -1,4 +1,4 @@
-package org.javawebstack.webutils;
+package org.javawebstack.webutils.util;
 
 import java.security.SecureRandom;
 import java.util.Locale;

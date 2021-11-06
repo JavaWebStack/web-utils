@@ -1,4 +1,4 @@
-package org.javawebstack.webutils;
+package org.javawebstack.webutils.middleware;
 
 import org.javawebstack.abstractdata.AbstractMapper;
 import org.javawebstack.abstractdata.NamingPolicy;
