@@ -24,7 +24,7 @@ public class RateLimitMiddleware implements Middleware {
     }
 
     public Object handle(Exchange exchange) {
-        String ip = exchange.rawRequest().getRemoteAddr();
+        String ip = exchange.socket().getRemoteAddress();
         if (exchange.header("X-Forwarded-For") != null)
             ip = exchange.header("X-Forwarded-For");
         RateLimit rateLimit = null;

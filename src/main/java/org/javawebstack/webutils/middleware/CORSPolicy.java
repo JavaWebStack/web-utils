@@ -1,8 +1,8 @@
 package org.javawebstack.webutils.middleware;
 
 import org.javawebstack.httpserver.Exchange;
+import org.javawebstack.httpserver.HTTPMethod;
 import org.javawebstack.httpserver.handler.RequestInterceptor;
-import org.javawebstack.httpserver.helper.HttpMethod;
 
 public class CORSPolicy implements RequestInterceptor {
     private final String allowedOrigin;
@@ -13,7 +13,7 @@ public class CORSPolicy implements RequestInterceptor {
 
     public boolean intercept(Exchange exchange) {
         exchange.header("Access-Control-Allow-Origin", allowedOrigin);
-        if (exchange.getMethod() == HttpMethod.OPTIONS) {
+        if (exchange.getMethod() == HTTPMethod.OPTIONS) {
             exchange.header("Access-Control-Allow-Headers", "*");
             exchange.header("Access-Control-Allow-Methods", "*");
             return true;
