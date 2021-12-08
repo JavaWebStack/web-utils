@@ -1,6 +1,7 @@
 package org.javawebstack.webutils.config;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class Config {
 
@@ -12,41 +13,52 @@ public class Config {
     }
 
     public Config add(String path, Map<String, String> data, Map<String, String> mapping) {
-        data.forEach((key, value) -> {
-            if(mapping != null && mapping.containsKey(key))
-                key = mapping.get(key);
-            set(path, key, value);
-        });
+        return add(path, data, k -> mapping.getOrDefault(k, k));
+    }
+
+    public Config add(String path, Map<String, String> data, Function<String, String> mapping) {
+        data.forEach((key, value) -> set(path, mapping.apply(key), value));
         return this;
     }
 
     public Config add(Map<String, String> data, Map<String, String> mapping) {
-        return add(null, data, null);
+        return add(null, data, mapping);
+    }
+
+    public Config add(Map<String, String> data, Function<String, String> mapping) {
+        return add(null, data, mapping);
     }
 
     public Config add(String path, Map<String, String> data) {
-        return add(path, data, null);
+        return add(path, data, k -> k);
     }
 
     public Config add(Map<String, String> data) {
-        return add(null, data, null);
+        return add(null, data, k -> k);
     }
 
     public Config add(String path, EnvFile envFile, Map<String, String> mapping) {
         return add(path, envFile.getValues(), mapping);
     }
 
+    public Config add(String path, EnvFile envFile, Function<String, String> mapping) {
+        return add(path, envFile.getValues(), mapping);
+    }
+
     public Config add(String path, EnvFile envFile) {
-        return add(path, envFile, null);
+        return add(path, envFile, k -> k);
     }
 
     public Config add(EnvFile envFile, Map<String, String> mapping) {
         return add(null, envFile, mapping);
+    }
 
+    public Config add(EnvFile envFile, Function<String, String> mapping) {
+        return add(null, envFile, mapping);
     }
 
     public Config add(EnvFile envFile) {
-        return add(null, envFile, null);
+        return add(null, envFile, k -> k);
     }
 
     public Config set(String key, String value) {
@@ -86,6 +98,10 @@ public class Config {
 
     public boolean has(String key) {
         return config.containsKey(key);
+    }
+
+    public static String basicEnvMapping(String k) {
+        return k.toLowerCase(Locale.ROOT).replace("_", ".");
     }
 
 }
