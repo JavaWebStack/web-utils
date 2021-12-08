@@ -71,10 +71,10 @@ public class Config {
 
     public AbstractObject getObject(String key) {
         String prefix = key.length() > 0 ? (key + ".") : "";
-        Stream<String> s = config.keySet().stream().filter(k -> k.startsWith(prefix));
-        if(s.findAny().isEmpty())
+        Set<String> s = config.keySet().stream().filter(k -> k.startsWith(prefix)).collect(Collectors.toSet());
+        if(s.size() == 0)
             return null;
-        return AbstractElement.fromTree(s.collect(Collectors.toMap(k -> k.substring(prefix.length()).split("\\."), config::get))).object();
+        return AbstractElement.fromTree(s.stream().collect(Collectors.toMap(k -> k.substring(prefix.length()).split("\\."), config::get))).object();
     }
 
     public Config set(String key, AbstractObject object) {
