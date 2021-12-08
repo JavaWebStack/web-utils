@@ -6,6 +6,7 @@ import org.javawebstack.abstractdata.AbstractObject;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Config {
 
@@ -70,7 +71,10 @@ public class Config {
 
     public AbstractObject getObject(String key) {
         String prefix = key.length() > 0 ? (key + ".") : "";
-        return AbstractElement.fromTree(config.keySet().stream().filter(k -> k.startsWith(prefix)).collect(Collectors.toMap(k -> k.substring(prefix.length()).split("\\."), config::get))).object();
+        Stream<String> s = config.keySet().stream().filter(k -> k.startsWith(prefix));
+        if(s.findAny().isEmpty())
+            return null;
+        return AbstractElement.fromTree(s.collect(Collectors.toMap(k -> k.substring(prefix.length()).split("\\."), config::get))).object();
     }
 
     public Config set(String key, AbstractObject object) {

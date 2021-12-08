@@ -22,6 +22,7 @@ public class MappingTryout implements Function<String, String> {
             if(k != null && (!failIfEqual || !k.equals(s)))
                 return k;
         }
-        return s;
+        return null;
     }
+
 }
