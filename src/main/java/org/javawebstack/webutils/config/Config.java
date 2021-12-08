@@ -12,17 +12,13 @@ public class Config {
         return set(prefix + key.toLowerCase(Locale.ROOT), value);
     }
 
-    public Config add(String path, Map<String, String> data, Map<String, String> mapping) {
-        return add(path, data, k -> mapping.getOrDefault(k, k));
-    }
-
     public Config add(String path, Map<String, String> data, Function<String, String> mapping) {
-        data.forEach((key, value) -> set(path, mapping.apply(key), value));
+        data.forEach((key, value) -> {
+            key = mapping.apply(key);
+            if(key != null)
+                set(path, key, value);
+        });
         return this;
-    }
-
-    public Config add(Map<String, String> data, Map<String, String> mapping) {
-        return add(null, data, mapping);
     }
 
     public Config add(Map<String, String> data, Function<String, String> mapping) {
@@ -37,20 +33,12 @@ public class Config {
         return add(null, data, k -> k);
     }
 
-    public Config add(String path, EnvFile envFile, Map<String, String> mapping) {
-        return add(path, envFile.getValues(), mapping);
-    }
-
     public Config add(String path, EnvFile envFile, Function<String, String> mapping) {
         return add(path, envFile.getValues(), mapping);
     }
 
     public Config add(String path, EnvFile envFile) {
         return add(path, envFile, k -> k);
-    }
-
-    public Config add(EnvFile envFile, Map<String, String> mapping) {
-        return add(null, envFile, mapping);
     }
 
     public Config add(EnvFile envFile, Function<String, String> mapping) {
