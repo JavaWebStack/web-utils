@@ -1,7 +1,11 @@
 package org.javawebstack.webutils.config;
 
+import org.javawebstack.abstractdata.AbstractElement;
+import org.javawebstack.abstractdata.AbstractObject;
+
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Config {
 
@@ -64,6 +68,18 @@ public class Config {
         return get(key, null);
     }
 
+    public AbstractObject getObject(String key) {
+        String prefix = key.length() > 0 ? (key + ".") : "";
+        return AbstractElement.fromTree(config.keySet().stream().filter(k -> k.startsWith(prefix)).collect(Collectors.toMap(k -> k.substring(prefix.length()).split("\\."), config::get))).object();
+    }
+
+    public Config set(String key, AbstractObject object) {
+        String prefix = key.length() > 0 ? (key + ".") : "";
+        config.keySet().stream().filter(k -> k.startsWith(prefix)).forEach(config::remove);
+        object.toTree().forEach((k, v) -> config.put(prefix + String.join(".", k), v.toString()));
+        return this;
+    }
+
     public int getInt(String key, int defaultValue) {
         String value = get(key);
         if (value == null)
@@ -86,6 +102,10 @@ public class Config {
 
     public boolean has(String key) {
         return config.containsKey(key);
+    }
+
+    public Set<String> keys() {
+        return config.keySet();
     }
 
     public static String basicEnvMapping(String k) {
