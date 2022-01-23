@@ -58,7 +58,7 @@ public abstract class AbstractAuthSystem {
         return false;
     }
 
-    public Object authHandler (Exchange exchange) throws AuthException {
+    public Object authMiddleware (Exchange exchange) throws AuthException {
         if (exchange.attrib("jwt") == null) {
             exchange.status(401);
             throw new AuthException("Authentication required");
