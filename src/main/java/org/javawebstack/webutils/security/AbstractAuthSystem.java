@@ -37,7 +37,7 @@ public abstract class AbstractAuthSystem {
         return tokenExpire;
     }
 
-    public AbstractObject loginHandler(Exchange exchange) throws AuthException {
+    public AbstractObject loginHandler(Exchange exchange) {
         AbstractObject body = exchange.body(AbstractObject.class);
         Optional<IUser> oUser = getUserByUsername(body.string("username"));
         if (!oUser.isPresent())
@@ -58,7 +58,7 @@ public abstract class AbstractAuthSystem {
         return false;
     }
 
-    public Object authMiddleware (Exchange exchange) throws AuthException {
+    public Object authMiddleware (Exchange exchange) {
         if (exchange.attrib("jwt") == null) {
             exchange.status(401);
             throw new AuthException("Authentication required");
