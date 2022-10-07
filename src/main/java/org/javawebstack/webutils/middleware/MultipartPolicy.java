@@ -12,8 +12,10 @@ public class MultipartPolicy implements RequestInterceptor {
     }
 
     public boolean intercept(Exchange exchange) {
+        /*
         if (location != null)
             exchange.enableMultipart(location);
+        */
         return false;
     }
 

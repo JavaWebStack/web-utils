@@ -7,7 +7,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <buildVersion>1.0.0-SNAPSHOT</buildVersion>
+        <buildVersion>1.0.1-SNAPSHOT</buildVersion>
     </properties>
 
     <groupId>org.javawebstack</groupId>
@@ -44,22 +44,17 @@
         <dependency>
             <groupId>org.javawebstack</groupId>
             <artifactId>orm</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.javawebstack</groupId>
             <artifactId>http-server</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.javafaker</groupId>
-            <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.8.1</version>
+            <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
