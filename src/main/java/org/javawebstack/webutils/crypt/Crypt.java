@@ -1,8 +1,7 @@
 package org.javawebstack.webutils.crypt;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import org.javawebstack.abstractdata.AbstractElement;
+import org.javawebstack.abstractdata.AbstractObject;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
@@ -84,11 +83,11 @@ public class Crypt {
             cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec);
             byte[] value = cipher.doFinal(data);
             byte[] mac = mac(Base64.getEncoder().encode(iv), Base64.getEncoder().encode(value));
-            Map<String, String> cryptData = new HashMap<>();
-            cryptData.put("iv", new String(Base64.getEncoder().encode(iv)));
-            cryptData.put("value", new String(Base64.getEncoder().encode(value)));
-            cryptData.put("mac", toHex(mac));
-            return new String(Base64.getEncoder().encode(new GsonBuilder().disableHtmlEscaping().create().toJson(cryptData).getBytes(StandardCharsets.UTF_8)));
+            AbstractObject cryptData = new AbstractObject();
+            cryptData.set("iv", new String(Base64.getEncoder().encode(iv)));
+            cryptData.set("value", new String(Base64.getEncoder().encode(value)));
+            cryptData.set("mac", toHex(mac));
+            return new String(Base64.getEncoder().encode(cryptData.toJsonString().getBytes(StandardCharsets.UTF_8)));
         } catch (IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException ex) {
             throw new SecurityException(ex.getMessage());
         }
@@ -120,11 +119,11 @@ public class Crypt {
 
     public byte[] decrypt(String data) {
         try {
-            JsonObject json = new Gson().fromJson(new String(Base64.getDecoder().decode(data.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8), JsonObject.class);
-            if (!toHex(mac(json.get("iv").getAsString().getBytes(StandardCharsets.UTF_8), json.get("value").getAsString().getBytes(StandardCharsets.UTF_8))).equals(json.get("mac").getAsString()))
+            AbstractObject json = AbstractElement.fromJson(new String(Base64.getDecoder().decode(data.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8)).object();
+            if (!toHex(mac(json.string("iv").getBytes(StandardCharsets.UTF_8), json.string("value").getBytes(StandardCharsets.UTF_8))).equals(json.string("mac")))
                 throw new SecurityException("Invalid MAC");
-            byte[] iv = Base64.getDecoder().decode(json.get("iv").getAsString().getBytes(StandardCharsets.UTF_8));
-            byte[] value = Base64.getDecoder().decode(json.get("value").getAsString().getBytes(StandardCharsets.UTF_8));
+            byte[] iv = Base64.getDecoder().decode(json.string("iv").getBytes(StandardCharsets.UTF_8));
+            byte[] value = Base64.getDecoder().decode(json.string("value").getBytes(StandardCharsets.UTF_8));
             SecretKeySpec secretKey = new SecretKeySpec(key, "AES");
             IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
