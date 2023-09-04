@@ -1,7 +1,7 @@
 package org.javawebstack.webutils.middleware;
 
-import org.javawebstack.httpserver.Exchange;
-import org.javawebstack.httpserver.handler.RequestHandler;
+import org.javawebstack.http.router.Exchange;
+import org.javawebstack.http.router.handler.RequestHandler;
 
 import java.util.function.BiFunction;
 

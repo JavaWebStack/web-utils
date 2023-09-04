@@ -1,6 +1,6 @@
 package org.javawebstack.webutils.modelbind;
 
-import org.javawebstack.httpserver.transformer.route.DefaultRouteParamTransformer;
+import org.javawebstack.http.router.transformer.route.DefaultRouteParamTransformer;
 import org.javawebstack.orm.Model;
 import org.javawebstack.orm.ORM;
 import org.javawebstack.orm.Repo;

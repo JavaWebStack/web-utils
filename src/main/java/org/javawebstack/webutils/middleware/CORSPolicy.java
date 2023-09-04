@@ -1,8 +1,8 @@
 package org.javawebstack.webutils.middleware;
 
-import org.javawebstack.httpserver.Exchange;
-import org.javawebstack.httpserver.HTTPMethod;
-import org.javawebstack.httpserver.handler.RequestInterceptor;
+import org.javawebstack.http.router.Exchange;
+import org.javawebstack.http.router.HTTPMethod;
+import org.javawebstack.http.router.handler.RequestInterceptor;
 
 public class CORSPolicy implements RequestInterceptor {
     private final String allowedOrigin;

@@ -1,7 +1,7 @@
 package org.javawebstack.webutils.middleware;
 
-import org.javawebstack.httpserver.Exchange;
-import org.javawebstack.httpserver.handler.RequestInterceptor;
+import org.javawebstack.http.router.Exchange;
+import org.javawebstack.http.router.handler.RequestInterceptor;
 
 public class MultipartPolicy implements RequestInterceptor {
 
